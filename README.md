@@ -48,7 +48,7 @@ elon_search = search.users("Elon Musk")
 
 for tweet in premierleague_search:
     print(tweet.text) 
-    # all tweet attributes are listed in first example
+    # all tweet attributes are listed in the first example
 
 for profile in ukraine_users:
     print(profile.username) 
@@ -63,7 +63,7 @@ tweet = TwitterTweet()
 
 random_tweet = tweet.id(1509960093810442250)
 print(random_tweet.text)
-# all tweet attributes are listed in first example
+# all tweet attributes are listed in the first example
 
 ```
 
