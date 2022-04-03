@@ -10,12 +10,6 @@ import functools
 import json
 import urllib.parse
 
-# ADD TWEET CLASS TO FETCH TWEET DATA
-# ADD EXPLORE CLASS FOR THE EXPLORE PAGE, later release
-
-# https://twitter.com/jack/status/20
-# for bio https://twitter.com/Twitter
-# Add testing in a later release
 
 @dataclasses.dataclass
 class User:
@@ -229,7 +223,7 @@ class TwitterSearch():
             'include_ext_trusted_friends_metadata': True,
             'send_error_codes': True,
             'simple_quoted_tweet': True,
-            'count': 20,
+            'count': 40,
             'query_source': 'typed_query',
             'pc': 1,
             'spelling_corrections': 1,
@@ -435,12 +429,6 @@ class TwitterTweet():
         return tweet
         
 
-        
-
-
-
-
-
 
 class Collection():
     """A list of tweets or users of the Tweet or User class from a timeline, hashtag or a search page."""
@@ -462,21 +450,4 @@ class Collection():
 
 
 if __name__ == "__main__":
-    # profile = TwitterProfile()
-    # espn = profile.info('espnfc')
-    # print(espn)
-
-    # timeline = profile.timeline('espnfc')
-    # for tweet in timeline:
-    #     print(tweet) 
-    # 
-    # search = TwitterSearch()
-    # result = search.users('ukraine war')
-
-    # for tweet in result:
-    #     print(tweet)
-
-    tweet = TwitterTweet()
-    worldcup_tweet = tweet.id(1509960093810442250)
-    print(worldcup_tweet)
     pass
