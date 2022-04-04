@@ -26,7 +26,7 @@ from twitter.main import TwitterProfile
 profile = TwitterProfile()
 
 jack = profile.info('jack')
-jack_timeline = profile.timeline('jack')
+jack_timeline = profile.timeline('jack', count=200) # default count is 40
 
 print(jack.description) 
 # other profile attributes: username, id, rest_id, created_at, url, followers_count, following_count, banner_url, logo_url 
