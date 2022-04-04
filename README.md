@@ -4,11 +4,11 @@ Using the public Twitter API to get access to Twitter data without requiring cre
 ### Features
 Currently under active development, however here are some things that you can do
 
-- **Get user bio and their most recent 40 tweets**
+- **Get user bio and their tweets (7200 max)**
 - **Search using the live, top and users tabs**
 - **Get tweet information from tweet id**
 - [soon] Get explore page data
-- [soon] Support paginated requests 
+- [soon] Support pagination for all requests (only timeline is supported right now)
 - [soon] View all tweet replies
 - [soon] CLI tools
 - [soon] Advanced search
