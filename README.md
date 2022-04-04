@@ -8,12 +8,11 @@ Using the public Twitter API to get access to Twitter data without requiring cre
 
    3.1. [Profiles](#31-view-profiles)
 
-   3.1  [Search](#32-search)
+   3.1.  [Search](#32-search)
 
-   3.3  [View Tweet](#33-view-tweet)
+   3.3.  [View Tweet](#33-view-tweet)
 
-   3.4  [CLI](#34-cli)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
+   3.4.  [CLI](#34-cli)
 
 ### Features
 Currently under active development, however here are some things that you can do
