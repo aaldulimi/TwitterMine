@@ -1,7 +1,7 @@
 # Twitter API
 Using the public Twitter API to get access to Twitter data without requiring credentials for the Developer API. Can be used as library, or from the CLI (refer to [Usage](#usage)). Implements the facade and dapter design patterns. Use responsibly. 
 
-# Table of Contents
+## Table of Contents
 1. [Features](#features)
 2. [Installation](#installation)
 3. [Usage](#third-example)
