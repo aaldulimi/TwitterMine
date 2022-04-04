@@ -3,7 +3,7 @@ import typing
 import datetime 
 import os
 import random
-import requests
+import requests 
 import time 
 import datetime
 import functools
@@ -67,7 +67,7 @@ class Config():
 
     def _deep_get(data, keys, default=None):
         return functools.reduce(lambda d, key: d.get(key, default) if isinstance(d, dict) else default, keys.split("."), data)
-    
+
     @property
     def guest_token(self):
         if os.environ.get("guest_token", None) is None:
@@ -83,7 +83,30 @@ class TwitterProfile():
         self.config = Config()
         self.headers = self.config._headers
         self.headers['x-guest-token'] = f'{self.config.guest_token}'
-        pass
+
+    def _json_to_tweet(self, tweet, username, name):
+        tweet_id = int(tweet['sortIndex'])
+        tweet_text = tweet['content']['itemContent']['tweet_results']['result']['legacy']['full_text']
+        tweet_likes = tweet['content']['itemContent']['tweet_results']['result']['legacy']['favorite_count']
+        tweet_retweets = tweet['content']['itemContent']['tweet_results']['result']['legacy']['retweet_count']
+        tweet_replies = tweet['content']['itemContent']['tweet_results']['result']['legacy']['reply_count']
+
+        date = tweet['content']['itemContent']['tweet_results']['result']['legacy']['created_at']
+        date = time.strptime(date, '%a %b %d %H:%M:%S %z %Y')     
+        date = datetime.datetime.fromtimestamp(time.mktime(date))
+        
+        tweet_obj = Tweet(
+            id = tweet_id,
+            username =  username,
+            name = name,
+            date = date,
+            text = tweet_text,
+            reply_count = tweet_replies,      
+            retweet_count = tweet_retweets,
+            like_count = tweet_likes
+        )
+
+        return tweet_obj
 
     def info(self, username):
         self.headers['referer'] = f'https://twitter.com/{username}' # how to reference attributes of classmethod within other methods
@@ -125,7 +148,7 @@ class TwitterProfile():
             logo_url = logo_url
         )
 
-    def timeline(self, username):
+    def timeline(self, username, count=40):
         self.headers['referer'] = f'https://twitter.com/{username}' # how to reference attributes of classmethod within other methods
 
         profile = self.info(username)
@@ -133,9 +156,9 @@ class TwitterProfile():
 
         url = f'https://mobile.twitter.com/i/api/graphql/y3KhIGmsE79hC1zGtPdAOQ/UserTweets'
   
-        param_variables = json.dumps({
+        params_dict = {
             "userId": user_id,
-            "count": 40,
+            "count": count,
             "includePromotedContent":True,
             "withQuickPromoteEligibilityTweetFields":True,
             "withSuperFollowsUserFields":True,
@@ -148,47 +171,43 @@ class TwitterProfile():
             "__fs_dont_mention_me_view_api_enabled":False,
             "__fs_interactive_text_enabled":False,
             "__fs_responsive_web_uc_gql_enabled":False
-        }, separators = (',', ':'))
+        }
 
-        params = {'variables': param_variables}
+        params_variables = json.dumps(params_dict, separators = (',', ':'))
+        params = {'variables': params_variables}
         params = urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
 
-        response = requests.get(url, headers=self.headers, params=params)
-        data = response.json()
-        
         tweet_collection = Collection()
+        total = 0
+        instructions = 1
 
-        tweet_entries = data['data']['user']['result']['timeline']['timeline']['instructions'][1]['entries']
-        for tweet in tweet_entries:
-            tweet_id = int(tweet['sortIndex'])
-            tweet_module = tweet['content']['entryType']
-            if tweet_module != 'TimelineTimelineItem':
-                continue
-            
-            tweet_text = tweet['content']['itemContent']['tweet_results']['result']['legacy']['full_text']
-            tweet_likes = tweet['content']['itemContent']['tweet_results']['result']['legacy']['favorite_count']
-            tweet_retweets = tweet['content']['itemContent']['tweet_results']['result']['legacy']['retweet_count']
-            tweet_replies = tweet['content']['itemContent']['tweet_results']['result']['legacy']['reply_count']
+        while (total < count):
+            response = requests.get(url, headers=self.headers, params=params)
+            data = response.json()
 
-            date = tweet['content']['itemContent']['tweet_results']['result']['legacy']['created_at']
-            date = time.strptime(date, '%a %b %d %H:%M:%S %z %Y')     
-            date = datetime.datetime.fromtimestamp(time.mktime(date))
-            
-            tweet_obj = Tweet(
-                id = tweet_id,
-                username =  username,
-                name = profile.name,
-                date = date,
-                text = tweet_text,
-                reply_count = tweet_replies,      
-                retweet_count = tweet_retweets,
-                like_count = tweet_likes
-            )
+            tweet_entries = data['data']['user']['result']['timeline']['timeline']['instructions'][instructions]['entries']
+            for tweet in tweet_entries:
+                tweet_module = tweet['content']['entryType']
 
-            tweet_collection.add_tweet(tweet_obj)
-        
+                if tweet_module == 'TimelineTimelineCursor':
+                    if tweet['content']['cursorType'] == 'Bottom':
+                        bottom_cursor = tweet['content']['value']
+                        
+
+                if tweet_module == 'TimelineTimelineItem':
+                    tweet_obj = self._json_to_tweet(tweet, username, profile.name)
+                    tweet_collection.add_tweet(tweet_obj)
+                    total += 1
+
+                    if total >= count: break
+
+            params_dict['cursor'] = bottom_cursor
+            params_variables = json.dumps(params_dict, separators = (',', ':'))
+            params = {'variables': params_variables}
+            params = urllib.parse.urlencode(params, quote_via=urllib.parse.quote)
+            instructions = 0
+
         return tweet_collection.tweets
-
 
 
 class TwitterSearch():

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "twitter"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
 authors = ["Ahmed Al-Dulimi <ahmed.aldulimi@student.unimelb.edu.au>"]
 
