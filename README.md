@@ -63,7 +63,7 @@ for tweet in premierleague_search:
     print(tweet.text) 
     # all tweet attributes are listed in the first example
 
-for profile in ukraine_users:
+for profile in elon_search:
     print(profile.username) 
     # all profile attributes are listed in the first example
 
