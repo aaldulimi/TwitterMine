@@ -1,20 +1,21 @@
 # Twitter API
 Using the public Twitter API to get access to Twitter data without requiring credentials for the Developer API. Can be used as library, or from the CLI (refer to [Usage](#usage)). Implements the facade and dapter design patterns. Use responsibly. 
 
-## Table of Contents
-1. [Features](#features)
-2. [Installation](#installation)
-3. [Usage](#third-example)
+## Contents
+- [Twitter API](#twitter-api)
+  - [Contents](#contents)
+  - [Features](#features)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [View Profiles](#view-profiles)
+    - [Search](#search)
+    - [View Tweet](#view-tweet)
+    - [CLI](#cli)
 
-   3.1. [Profiles](#31-view-profiles)
 
-   3.1.  [Search](#32-search)
+   
 
-   3.3.  [View Tweet](#33-view-tweet)
-
-   3.4.  [CLI](#34-cli)
-
-### Features
+## Features
 Currently under active development, however here are some things that you can do
 
 - **Get user bio and their tweets (7200 max)**
@@ -32,7 +33,7 @@ Currently under active development, however here are some things that you can do
 Git clone this repo, cd into the root directory and run ```poetry install```. This does require [poetry](https://python-poetry.org/) to be installed on your local machine. 
 
 ## Usage
-### - 3.1 View Profiles
+### View Profiles
 ```python
 from twitter.main import TwitterProfile
 
@@ -49,7 +50,7 @@ for tweet in espn_timeline:
     # other tweet attributes: id, username, name, date, reply_count, retweet_count, like_count
 
 ```
-### - 3.2 Search
+### Search
 ```python
 from twitter.main import TwitterSearch
 
@@ -68,7 +69,7 @@ for profile in elon_search:
     # all profile attributes are listed in the first example
 
 ```
-### - 3.3 View Tweet
+### View Tweet
 ```python
 from twitter.main import TwitterTweet
 
@@ -80,7 +81,7 @@ print(random_tweet.text)
 
 ```
 
-### - 3.4 CLI
+### CLI
 After you run `poetry install`, accessing the cli tools is done by typing `twitter --help`. Although you should refer to the `--help` page for the full documentation, here is a sample of what you can do:
 ```
 twitter profile info "jack"

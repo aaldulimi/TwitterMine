@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "twitter"
-version = "0.1.1"
-description = ""
+version = "0.1.2"
+description = "Reverse engineered Twitter public API as a library and CLI tool"
 authors = ["Ahmed Al-Dulimi <ahmed.aldulimi@student.unimelb.edu.au>"]
 
 [tool.poetry.dependencies]
@@ -11,7 +11,7 @@ click = "^8.1.2"
 rich = "^12.1.0"
 
 [tool.poetry.scripts]
-twitter = "cli.cli:main"
+twitter-cli = "cli.cli:main"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
