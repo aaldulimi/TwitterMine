@@ -27,6 +27,7 @@ Currently under active development, however here are some things that you can do
 - [soon] View all tweet replies
 - [soon] Advanced search
 - [soon] Testing 
+- [soon] Support images (ASCII)
 
 
 ## Installation 
@@ -84,15 +85,15 @@ print(random_tweet.text)
 ### CLI
 After you run `poetry install`, accessing the cli tools is done by typing `twitter --help`. Although you should refer to the `--help` page for the full documentation, here is a sample of what you can do:
 ```
-twitter profile info "jack"
-twitter profile timeline "jack" --count 100
+poetry run twitter profile info "jack"
+poetry run twitter profile timeline "jack" --count 100
 ```
 ```
-twitter search live "#premierleague"
-twitter search users "Elon Musk"
+poetry run twitter search live "#premierleague"
+poetry run twitter search users "Elon Musk"
 ```
 ```
-twitter tweet 20 1509960093810442250
+poetry run twitter tweet 20 1509960093810442250
 ```
 
 

@@ -155,10 +155,13 @@ class TwitterProfile():
         user_id = profile.rest_id
 
         url = f'https://mobile.twitter.com/i/api/graphql/y3KhIGmsE79hC1zGtPdAOQ/UserTweets'
-  
+
+        if count < 7: adjusted_count = 7
+        else: adjusted_count = count
+
         params_dict = {
             "userId": user_id,
-            "count": count,
+            "count": adjusted_count,
             "includePromotedContent":True,
             "withQuickPromoteEligibilityTweetFields":True,
             "withSuperFollowsUserFields":True,
@@ -187,6 +190,7 @@ class TwitterProfile():
 
             tweet_entries = data['data']['user']['result']['timeline']['timeline']['instructions'][instructions]['entries']
             for tweet in tweet_entries:
+
                 tweet_module = tweet['content']['entryType']
 
                 if tweet_module == 'TimelineTimelineCursor':
@@ -201,6 +205,8 @@ class TwitterProfile():
 
                     if total >= count: break
 
+            
+            if total >= count: break
             params_dict['cursor'] = bottom_cursor
             params_variables = json.dumps(params_dict, separators = (',', ':'))
             params = {'variables': params_variables}
